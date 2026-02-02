@@ -1025,6 +1025,23 @@ static void create_volatile_environment_registry_key(void)
     if (SUCCEEDED(hr))
         set_reg_value( hkey, L"LOCALAPPDATA", path );
 
+if (!RegCreateKeyExW( HKEY_CURRENT_USER, L"Software\\Wine\\DllOverrides",
+                      0, NULL, 0, KEY_ALL_ACCESS, NULL, &hkey2, NULL ))
+{
+    set_reg_value( hkey2, L"d3d10",      L"native" );
+    set_reg_value( hkey2, L"d3d9",       L"native" );
+    set_reg_value( hkey2, L"d3d8",       L"native" );
+    set_reg_value( hkey2, L"d3d10_1",    L"native" );
+    set_reg_value( hkey2, L"d3d10core",  L"native" );
+    set_reg_value( hkey2, L"d3d11",      L"native" );
+    set_reg_value( hkey2, L"d3d12core",  L"native" );
+    set_reg_value( hkey2, L"wined3d",    L"native" );
+    set_reg_value( hkey2, L"dxgi",       L"native" );
+    set_reg_value( hkey2, L"ddraw",      L"native" );
+
+    RegCloseKey( hkey2 );
+}
+
     size = ARRAY_SIZE(computername) - 2;
     if (GetComputerNameW(&computername[2], &size))
     {
